@@ -187,7 +187,7 @@
 </style>
 <style id="spn-css">
 .spn{position:absolute;left:50%;top:50%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:3px solid rgba(27,33,28,.16);border-top-color:#1B211C;filter:drop-shadow(0 0 3px rgba(255,255,255,.8));box-sizing:border-box;opacity:0;pointer-events:none;transition:opacity .25s;animation:spn-r .8s linear infinite;z-index:2}
-.spn.on{opacity:1;transition-delay:.3s}
+.spn.on{opacity:1;transition-delay:.8s}
 @keyframes spn-r{to{transform:rotate(360deg)}}
 </style>
 </head>
@@ -251,7 +251,7 @@
   var hv=document.getElementById('hv'),snd=document.getElementById('snd'),pp=document.getElementById('pp'),sk=document.getElementById('sk'),drag=false;
   var up=false,wt;pp.onclick=function(){if(hv.paused){up=false;hv.play();}else{up=true;hv.pause();}};hv.addEventListener('pause',function(){if(!up&&!document.hidden&&!hv.ended)setTimeout(function(){if(hv.paused&&!up)hv.play().catch(function(){});},200);});hv.addEventListener('waiting',function(){clearTimeout(wt);wt=setTimeout(function(){if(hv.readyState<3&&!up){var t=hv.currentTime;hv.load();hv.addEventListener('loadedmetadata',function f(){hv.removeEventListener('loadedmetadata',f);hv.currentTime=t;hv.play().catch(function(){});});}},8000);});hv.addEventListener('playing',function(){clearTimeout(wt);});var spn=document.getElementById('spn');function sp(o){spn.classList.toggle('on',o);}
 if(!(hv.readyState>=3&&!hv.paused))sp(true);
-hv.addEventListener('waiting',function(){if(!up)sp(true);});hv.addEventListener('playing',function(){sp(false);});hv.addEventListener('canplay',function(){if(!hv.paused)sp(false);});hv.addEventListener('pause',function(){if(up)sp(false);});
+hv.addEventListener('waiting',function(){if(!up)sp(true);});hv.addEventListener('playing',function(){sp(false);});hv.addEventListener('canplay',function(){if(!hv.paused)sp(false);});hv.addEventListener('pause',function(){if(up)sp(false);});setInterval(function(){if(!hv.paused&&hv.currentTime>0&&hv.readyState>=3)sp(false);},500);
 hv.parentNode.style.cursor='pointer';hv.parentNode.addEventListener('click',function(e){if(e.target.closest('.ctl'))return;pp.onclick();});
   hv.addEventListener('play',function(){pp.dataset.p='0';});hv.addEventListener('pause',function(){pp.dataset.p='1';});
   hv.addEventListener('timeupdate',function(){if(drag||!hv.duration)return;sk.value=hv.currentTime/hv.duration*1000;sk.style.setProperty('--v',sk.value/10+'%');});
