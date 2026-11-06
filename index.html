@@ -177,5 +177,11 @@ els.forEach(function(e){io.observe(e)});
 setTimeout(function(){els.forEach(function(e){var r=e.getBoundingClientRect();if(r.top<innerHeight)show(e)})},1800);
 })();
 </script>
+<script>
+(function(){var c=navigator.connection||{};if(c.saveData||/(^|-)[23]g$/.test(c.effectiveType||''))return;
+var done=false;function pf(){if(done)return;done=true;var l=document.createElement('link');l.rel='prefetch';l.as='video';l.href='labvanced/hero_preview.mp4';document.head.appendChild(l);}
+window.addEventListener('load',function(){setTimeout(pf,1500);});
+document.querySelectorAll('a[href*="labvanced"]').forEach(function(a){a.addEventListener('mouseenter',pf);a.addEventListener('touchstart',pf,{passive:true});});})();
+</script>
 </body>
 </html>
