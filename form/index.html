@@ -203,7 +203,7 @@
   <div class="title"><h1>FORM</h1></div>
 
   <div class="hero">
-    <video id="hv" preload="auto" src="hero_preview.mp4" poster="posters/hero.jpg" autoplay muted loop playsinline></video>
+    <video id="hv" preload="auto" src="hero_preview.mp4" autoplay muted loop playsinline></video>
     <div class="ctl">
       <button class="pill" id="pp" aria-label="Pause"><svg viewBox="0 0 24 24" fill="currentColor"><g class="ps"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></g><path class="pl" d="M7 4v16l13-8z"/></svg></button>
       <input type="range" id="sk" min="0" max="1000" value="0" aria-label="Seek">
@@ -243,7 +243,7 @@
 <script>
 (function(){
   var hv=document.getElementById('hv'),snd=document.getElementById('snd'),pp=document.getElementById('pp'),sk=document.getElementById('sk'),drag=false;
-  pp.onclick=function(){if(hv.paused)hv.play();else hv.pause();};
+  var up=false,wt;pp.onclick=function(){if(hv.paused){up=false;hv.play();}else{up=true;hv.pause();}};hv.addEventListener('pause',function(){if(!up&&!document.hidden&&!hv.ended)setTimeout(function(){if(hv.paused&&!up)hv.play().catch(function(){});},200);});hv.addEventListener('waiting',function(){clearTimeout(wt);wt=setTimeout(function(){if(hv.readyState<3&&!up){var t=hv.currentTime;hv.load();hv.addEventListener('loadedmetadata',function f(){hv.removeEventListener('loadedmetadata',f);hv.currentTime=t;hv.play().catch(function(){});});}},8000);});hv.addEventListener('playing',function(){clearTimeout(wt);});hv.parentNode.style.cursor='pointer';hv.parentNode.addEventListener('click',function(e){if(e.target.closest('.ctl'))return;pp.onclick();});
   hv.addEventListener('play',function(){pp.dataset.p='0';});hv.addEventListener('pause',function(){pp.dataset.p='1';});
   hv.addEventListener('timeupdate',function(){if(drag||!hv.duration)return;sk.value=hv.currentTime/hv.duration*1000;sk.style.setProperty('--v',sk.value/10+'%');});
   sk.addEventListener('input',function(){drag=true;sk.style.setProperty('--v',sk.value/10+'%');if(hv.duration)hv.currentTime=sk.value/1000*hv.duration;});
